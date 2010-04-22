@@ -1,0 +1,92 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper. 
+# GNU copyright 1997 by Joey Hess.
+#
+
+# Uncomment this to turn on verbose mode. 
+#export DH_VERBOSE=1
+
+include /usr/share/quilt/quilt.make
+
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+configure: config-stamp 
+config-stamp: $(QUILT_STAMPFN)
+	cd $(CURDIR) && ACLOCAL=aclocal-1.10 AUTOMAKE=automake-1.10 ./autogen.sh
+#	cd $(CURDIR) && autoreconf -vfi
+	cd $(CURDIR) && ./configure --host=$(DEB_HOST_GNU_TYPE) --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --with-qt-includes=/usr/include/qt3 --with-kernel-support --disable-werror
+	touch config-stamp
+
+build-arch: configure build-arch-stamp
+build-arch-stamp: 
+	# Add here commands to build the package
+	cd $(CURDIR) && DESTDIR=$(CURDIR)/debian/oprofile $(MAKE)
+	touch build-arch-stamp
+
+build-indep: build-indep-stamp
+build-indep-stamp:
+	dh_testdir
+	touch build-indep-stamp
+
+build: build-arch build-indep
+
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	rm -f config-stamp build-arch-stamp 
+	rm -f build-indep-stamp 
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	# Add here commands to install the package into debian/oprofile.
+	cd $(CURDIR) && DESTDIR=$(CURDIR)/debian/oprofile $(MAKE) install 
+
+	# Move some files to their proper location
+	mv debian/oprofile/usr/bin/oprof_start \
+	   debian/oprofile-gui/usr/bin
+	cp debian/oprofile/usr/share/man/man1/oprofile.1 \
+	   debian/oprofile-gui/usr/share/man/man1/oprof_start.1
+
+	#-- clean up some of the mess from
+	# an over-exuberant install command
+	#rm -f debian/oprofile/usr/share/mangled-name
+	dh_link usr/share/man/man1/oprofile.1 usr/share/man/man8/oprofiled.8
+
+# Build architecture-independent files here.
+# Pass -i to all debhelper commands in this target to reduce clutter.
+binary-indep: build install
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir 
+	dh_testroot 
+	dh_installdocs
+	dh_installexamples 
+	dh_installman 
+	dh_installchangelogs $(CURDIR)/ChangeLog $(CURDIR)/ChangeLog-2008
+	dh_strip 
+	dh_link 
+	dh_compress 
+	dh_compress 
+	dh_fixperms 
+	dh_installdeb 
+	dh_shlibdeps 
+	dh_gencontrol 
+	dh_md5sums 
+	dh_builddeb 
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install 

@@ -1,0 +1,45 @@
+Source: oprofile
+Section: devel
+Priority: optional
+Maintainer: LIU Qi <liuqi82@gmail.com>
+Uploaders: Roberto C. Sanchez <roberto@connexer.com>
+Standards-Version: 3.8.3
+Build-Depends: debhelper (>= 7), quilt, xsltproc, docbook-xsl, docbook-xml, libqt3-mt-dev, libpopt-dev, binutils-dev (>= 2.18~cvs20070812), zlib1g-dev, qt3-dev-tools, g++ (>>3.3.1), automake1.10, libtool
+Homepage: http://oprofile.sourceforge.net
+Vcs-Browser: http://git.printk.org/?p=liuqi/debian/oprofile.git;a=summary
+Vcs-git: git://git.printk.org/liuqi/debian/oprofile.git
+
+Package: oprofile
+Architecture: i386 ia64 alpha hppa powerpc sparc amd64 arm armel mips mipsel s390
+Conflicts: oprofile-modules0.2, oprofile-modules0.3, oprofile-modules0.4, oprofile-modules0.5, oprofile-modules0.6, oprofile-modules0.7, oprofile-modules0.8
+Depends: debconf | debconf-2.0, ${shlibs:Depends}
+Replaces: oprofile-common
+Recommends: binutils
+Suggests: oprofile-gui
+Description: system-wide profiler for Linux systems
+ OProfile is a performance profiling tool for Linux systems, capable
+ of profiling all running code at low overhead.  It consists of a
+ daemon for collecting sample data, plus several post-profiling tools
+ for turning data into information.
+ .
+ OProfile leverages the hardware performance counters of the CPU to
+ enable profiling of a wide variety of interesting statistics, which
+ can also be used for basic time-spent profiling. All code is profiled:
+ hardware and software interrupt handlers, kernel modules, the kernel,
+ shared libraries, and applications (the only exception being the
+ OProfile interrupt handler itself). Note that different architectures
+ can use different hardware mechanisms to collect data.
+ .
+ OProfile is currently in alpha status; however it has proven stable over
+ a large number of differing configurations. As always, there is no warranty.
+
+Package: oprofile-gui
+Architecture: i386 ia64 alpha hppa powerpc sparc amd64 arm armel mips mipsel s390
+Replaces: oprofile
+Depends: debconf | debconf-2.0, oprofile, ${shlibs:Depends}
+Recommends: binutils
+Description: system-wide profiler for Linux systems (GUI components)
+ This package contains only the GUI components of the oprofile package.
+ This allows oprofile to be used on machines that require a much
+ smaller footprint, or that do not wish to use an X Windows interface.
+
