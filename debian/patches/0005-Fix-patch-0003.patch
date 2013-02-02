@@ -1,0 +1,10 @@
+--- a/utils/opcontrol
++++ b/utils/opcontrol
+@@ -786,6 +786,7 @@
+ 
+ 			--save)
+                 error_if_invalid_arg $arg $val
++				error_if_not_basename $arg $val
+ 				DUMP=yes
+ 				SAVE_SESSION=yes
+ 				SAVE_NAME=$val

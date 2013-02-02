@@ -1,3 +1,18 @@
+oprofile (0.9.6-1.1+squeeze2) stable-security; urgency=low
+
+  * Non-maintainer upload by the Security Team.
+  * Jamie Strandboge noticed an uncomplete fix for CVE-2011-1760 Closes: #624212
+
+ -- Luciano Bello <luciano@debian.org>  Fri, 08 Jul 2011 21:02:50 -0300
+
+oprofile (0.9.6-1.1+squeeze1) stable-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Add patches by William Cohen to fix argument sanitation, CVE-2011-1760.
+    This fixes the arbitrary command execution via opcontrol. (Closes: #624212)
+
+ -- Luciano Bello <luciano@debian.org>  Fri, 20 May 2011 18:00:08 -0300
+
 oprofile (0.9.6-1.1) unstable; urgency=low
 
   * Non-maintainer upload.

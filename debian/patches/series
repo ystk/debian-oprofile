@@ -1,3 +1,8 @@
 timer-mode.patch
 shell-interpreter.patch
 static-libbfd.patch
+0001-Sanitize-Event-Names.patch
+0002-Ensure-that-save-only-saves-things-in-SESSION_DIR.patch
+0003-Avoid-blindly-source-SETUP_FILE-with.patch
+0004-Do-additional-checks-on-user-supplied-arguments.patch
+0005-Fix-patch-0003.patch
